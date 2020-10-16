@@ -1,0 +1,3 @@
+[submodule "Kinc_bin"]
+	path = Kinc_bin
+	url = https://github.com/Kode-Community/Kinc_bin.git
