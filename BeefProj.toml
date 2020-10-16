@@ -1,0 +1,15 @@
+FileVersion = 1
+Dependencies = {corlib = "*", corlib = "*", corlib = "*"}
+
+[Project]
+Name = "kinc_beef"
+
+[Configs.Release.Win64]
+LibPaths = ["$(ProjectDir)/Kinc_bin/Kinc_D3D11.lib"]
+PostBuildCmds = ["CopyToDependents(\"$(ProjectDir)/Kinc_bin/Kinc_D3D11.dll\")"]
+
+[Configs.Debug.Win64]
+CLibType = "Static"
+BeefLibType = "DynamicDebug"
+LibPaths = ["$(ProjectDir)/Kinc_bin/D3D11/dll/Kinc.lib"]
+PostBuildCmds = ["CopyToDependents(\"$(ProjectDir)/Kinc_bin/D3D11/dll/Kinc.dll\")"]
