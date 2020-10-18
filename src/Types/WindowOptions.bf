@@ -7,14 +7,14 @@ namespace kinc_beef.Types
 	public struct  WindowOptions {
 		char8* title;
 
-		int x;
-		int y;
-		int width;
-		int height;
-		int display_index;
+		int32 x;
+		int32 y;
+		int32 width;
+		int32 height;
+		int32 display_index;
 
 		bool visible;
-		int window_features;
+		int32 window_features;
 		WindowMode mode;
 	}
 }

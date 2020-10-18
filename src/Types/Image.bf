@@ -1,7 +1,9 @@
+using System;
 using kinc_beef.Enums;
 
 namespace kinc_beef.Types
 {
+	[CRepr]
 	struct Image  {
 		int32 width;
 		int32 height;

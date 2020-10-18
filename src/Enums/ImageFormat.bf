@@ -1,6 +1,6 @@
 namespace kinc_beef.Enums
 {
-	public enum ImageFormat : int32{
+	public enum ImageFormat : int32 {
 		RGBA32,
 		GREY8,
 		RGB24,
