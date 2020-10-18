@@ -1,7 +1,7 @@
 using System;
 
 using System.Interop;
-
+using System.FFI;
 using kinc_beef.Types;
 using kinc_beef.Enums;
 
@@ -253,13 +253,19 @@ namespace kinc_beef
 		//
 		// -----------------------------------------------------------------------------
 		[LinkName("kinc_a2_init")]
-		public static extern void audio2_init();
+		public static extern void a2_init();
 		[LinkName("kinc_a2_set_callback")]
 		public static extern void a2_set_callback(function void(AudioBuffer buffer,int32 samples) callback);
 		[LinkName("kinc_a2_set_callback")]
 		public static extern void a2_set_sample_rate_callback(function void() callback);
-		[LinkName("kinc_a2_samples_per_second")]
-		public static extern int32 a2_samples_per_second;
+		[LinkName("__imp_kinc_a2_samples_per_second")]
+		static extern int32* a2_samples_per_second;
+		public static int32 get_a2_samples_per_second(){
+			return *a2_samples_per_second;
+		}
+		public static void set_a2_samples_per_second(int32 value){
+			*a2_samples_per_second = value;
+		}
 		[LinkName("kinc_a2_update")]
 		public static extern void a2_update();
 		[LinkName("kinc_a2_shutdown")]
@@ -351,22 +357,186 @@ namespace kinc_beef
 		public static extern float round(float value);
 		[LinkName("kinc_ceil")]
 		public static extern float ceil(float value);
+		[LinkName("kinc_pow")]
+		public static extern float pow(float value);
+		[LinkName("kinc_max_float")]
+		public static extern float max_float();
+		[LinkName("kinc_sqrt")]
+		public static extern float sqrt(float value);
+		[LinkName("kinc_abs")]
+		public static extern float abs(float value);
+		[LinkName("kinc_asin")]
+		public static extern float asin(float value);
+		[LinkName("kinc_acos")]
+		public static extern float acos(float value);
+		[LinkName("kinc_atan")]
+		public static extern float atan(float value);
+		[LinkName("kinc_atan2")]
+		public static extern float atan2(float value);
+		[LinkName("kinc_floor")]
+		public static extern float floor(float value);
+		[LinkName("kinc_mod")]
+		public static extern float mod(float number,float denom);
+		[LinkName("kinc_exp")]
+		public static extern float exp(float exponent);
+		[LinkName("kinc_min")]
+		public static extern float min(float a,float b);
+		[LinkName("kinc_max")]
+		public static extern float max(float a,float b);
+		[LinkName("kinc_mini")]
+		public static extern int32 mini(int32 a,int32 b);
+		[LinkName("kinc_max")]
+		public static extern int32 maxi(int32 a,int32 b);
+		[LinkName("kinc_clamp")]
+		public static extern float clamp(float value,float min_value,float max_value);
+		// -----------------------------------------------------------------------------
+		//
+		// filewriter.h
+		//
+		// -----------------------------------------------------------------------------
+
+		[LinkName("kinc_file_writer_open")]
+		public static extern bool file_writer_open(FileWriter* writer,char8* filepath);
+		[LinkName("kinc_file_writer_write")]
+		public static extern void file_writer_write(FileWriter* writer,void* data,int32 size);
+		[LinkName("kinc_file_writer_close")]
+		public static extern void file_writer_close(FileWriter* writer);
+		
+		// -----------------------------------------------------------------------------
+		//
+		// filereader.h
+		//
+		// -----------------------------------------------------------------------------
+		[LinkName("kinc_file_reader_open")]
+		public static extern bool file_reader_open(FileReader* reader,char8* filename,FileType type);
+		[LinkName("kinc_file_reader_close")]
+		public static extern void file_reader_close(FileReader* reader);
+		[LinkName("kinc_file_reader_read")]
+		public static extern int32 file_reader_read(FileReader* reader,void* data,Size_t size);
+		[LinkName("kinc_file_reader_size")]
+		public static extern Size_t file_reader_size(FileReader* reader);
+		[LinkName("kinc_file_reader_pos")]
+		public static extern int32 file_reader_pos(FileReader* reader);
+		[LinkName("kinc_file_reader_seek")]
+		public static extern void file_reader_seek(FileReader* reader,int32 pos);
+
+		[LinkName("kinc_read_f32le")]
+		public static extern float file_read_f32le(uint8* data);
+		[LinkName("kinc_read_f32be")]
+		public static extern float file_read_f32be(uint8* data);
+
+		[LinkName("kinc_read_u64le")]
+		public static extern c_ulong file_read_u64le(uint8* data);
+		[LinkName("kinc_read_u64be")]
+		public static extern c_ulong file_read_u64be(uint8* data);
+
+		[LinkName("kinc_read_s64le")]
+		public static extern c_long file_read_s64le(uint8* data);
+		[LinkName("kinc_read_s64be")]
+		public static extern c_long file_read_s64be(uint8* data);
+
+		[LinkName("kinc_read_u32le")]
+		public static extern uint32 file_read_u32le(uint8* data);
+		[LinkName("kinc_read_u32be")]
+		public static extern uint32 file_read_u32be(uint8* data);
+
+		[LinkName("kinc_read_s32le")]
+		public static extern int32 file_read_s32le(uint8* data);
+		[LinkName("kinc_read_s32be")]
+		public static extern int32 file_read_s32be(uint8* data);
+
+		[LinkName("kinc_read_u16le")]
+		public static extern uint16 file_read_u16le(uint8* data);
+		[LinkName("kinc_read_u16be")]
+		public static extern uint16 file_read_u16be(uint8* data);
+
+		[LinkName("kinc_read_s16le")]
+		public static extern int16 file_read_s16le(uint8* data);
+		[LinkName("kinc_read_s16be")]
+		public static extern int16 file_read_s16be(uint8* data);
+
+		[LinkName("kinc_read_u8")]
+		public static extern uint8 file_read_u8(uint8* data);
+		[LinkName("kinc_read_i8")]
+		public static extern int8 file_read_i8(uint8* data);
+
+		// -----------------------------------------------------------------------------
+		//
+		// keyboard.h
+		//
+		// -----------------------------------------------------------------------------
+
+		[LinkName("kinc_keyboard_show")]
+		public static extern void keyboard_show();
+		[LinkName("kinc_keyboard_hide")]
+		public static extern void keyboard_hide();
+		[LinkName("kinc_keyboard_active")]
+		public static extern bool keyboard_active();
+
+		[LinkName("__imp_kinc_keyboard_key_down_callback")]
+		static extern function void(KeyCode keycode)* keyboard_key_down_callback;
+		public static void set_key_down_callback(function void(KeyCode keycode) callback){
+			*keyboard_key_down_callback = callback;
+		}
+
+		[LinkName("__imp_kinc_keyboard_key_up_callback")]
+		static extern function void(KeyCode keycode)* keyboard_key_up_callback;
+		public static void set_key_up_callback(function void(KeyCode keycode) callback){
+			*keyboard_key_up_callback = callback;
+		}
+
+		[LinkName("__imp_kinc_keyboard_key_press_callback")]
+		static extern function void(uint32 character)* keyboard_key_press_callback;
+
+		[Unchecked]
+		public static void set_key_pressed_callback(function void(uint32 character) callback){
+			*keyboard_key_press_callback = callback;
+		}
+
+		// -----------------------------------------------------------------------------
+		//
+		// mouse.h
+		//
+		// -----------------------------------------------------------------------------
+		[LinkName("kinc_mouse_can_lock")]
+		public static extern bool mouse_can_lock(int32 window);
+		[LinkName("kinc_mouse_is_lock")]
+		public static extern bool mouse_is_lock(int32 window);
+		[LinkName("kinc_mouse_lock")]
+		public static extern void mouse_lock(int32 window);
+		[LinkName("kinc_mouse_unlock")]
+		public static extern void mouse_unlock(int32 window);
+
+		[LinkName("kinc_mouse_set_cursor")]
+		public static extern void mouse_set_cursor(int32 cursor);
+
+		[LinkName("kinc_mouse_show")]
+		public static extern void mouse_show();
+		[LinkName("kinc_mouse_hide")]
+		public static extern void mouse_hide();
+		[LinkName("kinc_mouse_set_position")]
+		public static extern void mouse_set_position(int32 window,int32 x, int32 y);
+		[LinkName("kinc_mouse_set_position")]
+		public static extern void mouse_get_position(int32 window,int32* x, int32* y);
 		/*
-		pow :: proc(value: _c.float) -> _c.float ---;
-		max_float :: proc() -> _c.float ---;
-		sqrt :: proc(value: _c.float) -> _c.float ---;
-		abs :: proc(value: _c.float) -> _c.float ---;
-		asin :: proc(value: _c.float) -> _c.float ---;
-		acos :: proc(value: _c.float) -> _c.float ---;
-		atan :: proc(value: _c.float) -> _c.float ---;
-		atan2 :: proc(y: _c.float, x: _c.float) -> _c.float ---;
-		floor :: proc(value: _c.float) -> _c.float ---;
-		mod :: proc(numer: _c.float, denom: _c.float) -> _c.float ---;
-		exp :: proc(exponent: _c.float) -> _c.float ---;
-		min :: proc(a: _c.float, b: _c.float) -> _c.float ---;
-		max :: proc(a: _c.float, b: _c.float) -> _c.float ---;
-		maxi :: proc(a: _c.int, b: _c.int) -> _c.int ---;
-		mini :: proc(a: _c.int, b: _c.int) -> _c.int ---;
-		clamp :: proc(value: _c.float, min_value: _c.float, max_value: _c.float) -> _c.int ---;*/
+
+		@(link_name="__imp_kinc_mouse_press_callback")
+		mouse_press_callback: ^proc "c" (window: _c.int, button: _c.int, x: _c.int, y: _c.int);
+
+		@(link_name="__imp_kinc_mouse_release_callback")
+		mouse_release_callback: ^proc "c" (window: _c.int, button: _c.int, x: _c.int, y: _c.int);
+
+		@(link_name="__imp_kinc_mouse_move_callback")
+		mouse_move_callback: ^proc "c" (window: _c.int, x: _c.int, y: _c.int, movement_x: _c.int, movement_y: _c.int);
+
+		@(link_name="__imp_kinc_mouse_scroll_callback")
+		mouse_scroll_callback: ^proc "c" (window: _c.int, delta: _c.int);
+
+		@(link_name="__imp_kinc_mouse_enter_window_callback")
+		mouse_enter_window_callback: ^proc "c" (window: _c.int);
+
+		@(link_name="__imp_kinc_mouse_leave_window_callback")
+		mouse_leave_window_callback: ^proc "c" (window: _c.int);*/
+
 	}
 }
