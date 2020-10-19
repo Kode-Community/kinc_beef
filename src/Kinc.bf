@@ -426,14 +426,14 @@ namespace kinc_beef
 		public static extern float file_read_f32be(uint8* data);
 
 		[LinkName("kinc_read_u64le")]
-		public static extern c_ulong file_read_u64le(uint8* data);
+		public static extern uint64 file_read_u64le(uint8* data);
 		[LinkName("kinc_read_u64be")]
-		public static extern c_ulong file_read_u64be(uint8* data);
+		public static extern uint64 file_read_u64be(uint8* data);
 
 		[LinkName("kinc_read_s64le")]
-		public static extern c_long file_read_s64le(uint8* data);
+		public static extern int64 file_read_s64le(uint8* data);
 		[LinkName("kinc_read_s64be")]
-		public static extern c_long file_read_s64be(uint8* data);
+		public static extern int64 file_read_s64be(uint8* data);
 
 		[LinkName("kinc_read_u32le")]
 		public static extern uint32 file_read_u32le(uint8* data);
@@ -473,23 +473,25 @@ namespace kinc_beef
 		[LinkName("kinc_keyboard_active")]
 		public static extern bool keyboard_active();
 
+		
 		[LinkName("__imp_kinc_keyboard_key_down_callback")]
 		static extern function void(KeyCode keycode)* keyboard_key_down_callback;
 		public static void set_key_down_callback(function void(KeyCode keycode) callback){
+			#unwarn// Don't warn when we don't use the function
 			*keyboard_key_down_callback = callback;
 		}
 
 		[LinkName("__imp_kinc_keyboard_key_up_callback")]
 		static extern function void(KeyCode keycode)* keyboard_key_up_callback;
 		public static void set_key_up_callback(function void(KeyCode keycode) callback){
+			#unwarn// Don't warn when we don't use the function
 			*keyboard_key_up_callback = callback;
 		}
 
 		[LinkName("__imp_kinc_keyboard_key_press_callback")]
 		static extern function void(uint32 character)* keyboard_key_press_callback;
-
-		[Unchecked]
 		public static void set_key_pressed_callback(function void(uint32 character) callback){
+			#unwarn// Don't warn when we don't use the function
 			*keyboard_key_press_callback = callback;
 		}
 
@@ -518,25 +520,168 @@ namespace kinc_beef
 		public static extern void mouse_set_position(int32 window,int32 x, int32 y);
 		[LinkName("kinc_mouse_set_position")]
 		public static extern void mouse_get_position(int32 window,int32* x, int32* y);
+
+		[LinkName("__imp_kinc_mouse_press_callback")]
+		static extern function void(int32 window,int32 button,int32 x,int32 y)* mouse_press_callback;
+		public static void set_mouse_press_callback(function void(int32 window,int32 button,int32 x,int32 y) callback){
+			#unwarn// Don't warn when we don't use the function
+			*mouse_press_callback = callback;
+		}
+
+		[LinkName("__imp_kinc_mouse_release_callback")]
+		static extern function void(int32 window,int32 button,int32 x,int32 y)* mouse_release_callback;
+		public static void set_mouse_release_callback(function void(int32 window,int32 button,int32 x,int32 y) callback){
+			#unwarn// Don't warn when we don't use the function
+			*mouse_release_callback = callback;
+		}
+
+		[LinkName("__imp_kinc_mouse_move_callback")]
+		static extern function void(int32 window,int32 x,int32 y,int32 movement_x,int32 movement_y)* mouse_move_callback;
+		public static void set_mouse_move_callback(function void(int32 window,int32 x,int32 y,int32 movement_x,int32 movement_y) callback){
+			#unwarn// Don't warn when we don't use the function
+			*mouse_move_callback = callback;
+		}
+
+		[LinkName("__imp_kinc_mouse_scroll_callback")]
+		static extern function void(int32 window,int32 delta)* mouse_scroll_callback;
+		public static void set_mouse_scroll_callback(function void(int32 window,int32 delta) callback){
+			#unwarn// Don't warn when we don't use the function
+			*mouse_scroll_callback = callback;
+		}
+
+		[LinkName("__imp_kinc_mouse_enter_window_callback")]
+		static extern function void(int32 window)* mouse_enter_window_callback;
+		public static void set_mouse_enter_window_callback(function void(int32 window) callback){
+			#unwarn// Don't warn when we don't use the function
+			*mouse_enter_window_callback = callback;
+		}
+
+		[LinkName("__imp_kinc_mouse_leave_window_callback")]
+		static extern function void(int32 window)* mouse_leave_window_callback;
+		public static void set_mouse_leave_window_callback(function void(int32 window) callback){
+			#unwarn// Don't warn when we don't use the function
+			*mouse_leave_window_callback = callback;
+		}
+
+		// -----------------------------------------------------------------------------
+		//
+		// gamepad.h
+		//
+		// -----------------------------------------------------------------------------
+		[LinkName("kinc_gamepad_vendor")]
+		public static extern char8* gamepad_vendor(int32 gamepad);
+		[LinkName("kinc_gamepad_product_name")]
+		public static extern char8* gamepad_product_name(int32 gamepad);
+		[LinkName("kinc_gamepad_connected")]
+		public static extern bool gamepad_connected(int32 gamepad);
+
+		[LinkName("__imp_kinc_gamepad_axis_callback")]
+		static extern function void(int32 gamepad,int32 axis,float value)* gamepad_axis_callback;
+		public static void set_gamepad_axis_callback(function void(int32 gamepad,int32 axis,float value) callback){
+			#unwarn// Don't warn when we don't use the function
+			*gamepad_axis_callback = callback;
+		}
+
+		[LinkName("__imp_kinc_gamepad_button_callback")]
+		static extern function void(int32 gamepad,int32 button,float value)* gamepad_button_callback;
+		public static void set_gamepad_button_callback(function void(int32 gamepad,int32 button,float value) callback){
+			#unwarn// Don't warn when we don't use the function
+			*gamepad_button_callback = callback;
+		}
+
+		// -----------------------------------------------------------------------------
+		//
+		// graphics4.h
+		//
+		// -----------------------------------------------------------------------------
+		struct TextureUnit;//Just a handle struct
+
+		[LinkName("kinc_g4_init")]
+		public static extern void g4_init(int32 window,int32 depth_buffer_bits,int32 stencil_buffer_bits,bool vsync);
+		[LinkName("kinc_g4_destroy")]
+		public static extern void g4_destroy(int32 window);
+
+		[LinkName("kinc_g4_flush")]
+		public static extern void g4_flush();
+
+		[LinkName("kinc_g4_begin")]
+		public static extern void g4_begin(int32 window);
+		[LinkName("kinc_g4_end")]
+		public static extern void g4_end(int32 window);
+
+		[LinkName("kinc_g4_swap_buffers")]
+		public static extern bool g4_swap_buffers();
+
+		[LinkName("kinc_g4_clear")]
+		public static extern void g4_clear(uint32 flags,uint32 color,float depth,int32 stencil);
+		[LinkName("kinc_g4_viewport")]
+		public static extern void g4_viewport(int32 x,int32 y, int32 width,int32 height);
+		[LinkName("kinc_g4_scissor")]
+		public static extern void g4_scissor(int32 x,int32 y, int32 width,int32 height);
+		[LinkName("kinc_g4_disable_scissor")]
+		public static extern void g4_disable_scissor();
+		[LinkName("kinc_g4_draw_indexed_vertices")]
+		public static extern void g4_draw_indexed_vertices();
+		[LinkName("kinc_g4_draw_indexed_vertices_from_to")]
+		public static extern void g4_draw_indexed_vertices_from_to(int32 start,int32 count);
+		[LinkName("kinc_g4_draw_indexed_vertices_from_to_from")]
+		public static extern void g4_draw_indexed_vertices_from_to_from(int32 start,int32 count,int32 vertex_offset);
+		[LinkName("kinc_g4_draw_indexed_vertices_instanced_from_to")]
+		public static extern void g4_draw_indexed_vertices_instanced_from_to(int32 instance_count,int32 start,int32 count);
+
+		[LinkName("kinc_g4_set_texture_addressing")]
+		public static extern void g4_set_texture_addressing(TextureUnit unit,TextureDirection dir,TextureAddressing addressing);
+		[LinkName("kinc_g4_set_texture3d_addressing")]
+		public static extern void g4_set_texture3d_addressing(TextureUnit unit,TextureDirection dir,TextureAddressing addressing);
 		/*
+		g4_set_pipeline :: proc(pipeline: ^Pipeline) ---;
+		g4_set_stencil_reference_value :: proc(value: _c.int) ---;
+		g4_set_texture_operation :: proc(operation: Texture_Operation, arg1: Texture_Argument, arg2: Texture_Argument) ---;
 
-		@(link_name="__imp_kinc_mouse_press_callback")
-		mouse_press_callback: ^proc "c" (window: _c.int, button: _c.int, x: _c.int, y: _c.int);
+		g4_set_int :: proc(location: Constant_Location, value: _c.int) ---;
+		g4_set_int2 :: proc(location: Constant_Location, value1: _c.int, value2: _c.int) ---;
+		g4_set_int3 :: proc(location: Constant_Location, value1: _c.int, value2: _c.int, value3: _c.int) ---;
+		g4_set_int4 :: proc(location: Constant_Location, value1: _c.int, value2: _c.int, value3: _c.int, value4: _c.int) ---;
+		g4_set_ints :: proc(location: Constant_Location, values: ^_c.float, count: _c.int) ---;
 
-		@(link_name="__imp_kinc_mouse_release_callback")
-		mouse_release_callback: ^proc "c" (window: _c.int, button: _c.int, x: _c.int, y: _c.int);
+		g4_set_bool :: proc(location: Constant_Location, value: _c.bool) ---;
 
-		@(link_name="__imp_kinc_mouse_move_callback")
-		mouse_move_callback: ^proc "c" (window: _c.int, x: _c.int, y: _c.int, movement_x: _c.int, movement_y: _c.int);
+		g4_set_matrix3 :: proc(location: Constant_Location, value: ^Matrix3x3) ---;
+		g4_set_matrix4 :: proc(location: Constant_Location, value: ^Matrix4x4) ---;
 
-		@(link_name="__imp_kinc_mouse_scroll_callback")
-		mouse_scroll_callback: ^proc "c" (window: _c.int, delta: _c.int);
+		g4_set_texture_magnification_filter :: proc(unit: Texture_Unit, filter: Texture_Filter) ---;
+		g4_set_texture3d_magnification_filter :: proc(unit: Texture_Unit, filter: Texture_Filter) ---;
 
-		@(link_name="__imp_kinc_mouse_enter_window_callback")
-		mouse_enter_window_callback: ^proc "c" (window: _c.int);
+		g4_set_texture_minification_filter :: proc(unit: Texture_Unit, filter: Texture_Filter) ---;
+		g4_set_texture3d_minification_filter :: proc(unit: Texture_Unit, filter: Texture_Filter) ---;
 
-		@(link_name="__imp_kinc_mouse_leave_window_callback")
-		mouse_leave_window_callback: ^proc "c" (window: _c.int);*/
+		g4_set_texture_mipmap_filter :: proc(unit: Texture_Unit, filter: Mipmap_Filter) ---;
+		g4_set_texture3d_mipmap_filter :: proc(unit: Texture_Unit, filter: Mipmap_Filter) ---;
+
+		g4_set_texture_compare_mode :: proc(unit: Texture_Unit, enabled: _c.bool) ---;
+		g4_set_cubemap_compare_mode :: proc(unit: Texture_Unit, enabled: _c.bool) ---;
+
+		g4_max_bound_textures :: proc() -> _c.int ---;
+		g4_render_targets_inverted_y :: proc() -> _c.bool ---;
+		g4_non_pow2_textures_supported :: proc() -> _c.bool ---;
+
+		g4_restore_render_target :: proc() ---;
+		g4_set_render_targets :: proc(targets: ^^Render_Target, count: _c.int) ---;
+		g4_set_render_target_face :: proc(texture: ^Render_Target, face: _c.int) ---;
+
+		g4_set_texture :: proc(unit: Texture_Unit, texture: ^Texture) ---;
+		g4_set_image_texture :: proc(unit: Texture_Unit, texture: ^Texture) ---;
+
+		g4_init_occlusion_query :: proc(occlusion_query: ^_c.uint) -> _c.bool ---;
+		g4_delete_occlusion_query :: proc(occlusion_query: ^_c.uint) ---;
+		g4_start_occlusion_query :: proc(occlusion_query: ^_c.uint) ---;
+		g4_end_occlusion_query :: proc(occlusion_query: ^_c.uint) ---;
+
+		g4_are_query_results_available :: proc(occlusion_query: ^_c.uint) -> _c.bool ---;
+		g4_get_query_results :: proc(occlusion_query: ^_c.uint, pixel_count: ^_c.uint) -> _c.bool ---;
+		g4_set_texture_array :: proc(unit: Texture_Unit, array: ^Texture_Array) ---;
+		g4_antialiasing_samples :: proc() -> _c.int ---;
+		g4_set_antialiasing_samples :: proc(samples: _c.int) ---;*/
 
 	}
 }
